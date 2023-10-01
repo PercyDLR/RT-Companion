@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">RT Companion</string>
+    <string name="mensajeBienvenida">Inicie sesión para realizar un seguimiento de las operaciones de mantenimiento activas de su empresa.</string>
+</resources>
