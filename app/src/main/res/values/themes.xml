@@ -4,26 +4,24 @@
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/azulInterfaz</item>
         <item name="colorPrimaryVariant">@color/azulInterfaz</item>
-        <item name="colorOnPrimary">@color/blancoFondo</item>
+        <item name="colorOnPrimary">@color/fondo</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/amarillo</item>
         <item name="colorSecondaryVariant">@color/amarilloSecundario</item>
-        <item name="colorOnSecondary">@color/negroFondo</item>
+        <item name="colorOnSecondary">@color/fondo</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">@color/azulInterfaz</item>
         <!-- Customize your theme here. -->
-
-
-
         <item name="android:fontFamily">@font/poppins</item>
         <item name="fontFamily">@font/poppins</item>
+
     </style>
 
-    <style name="Theme.Rooms.NoActionBar" parent="Theme.Rooms">
+    <style name="Theme.Rooms.NoActionBar" parent="Theme.RTCompanion">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
-
+    
     <style name="App.Custom.Indicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
         <item name="android:color">@color/azulInterfaz</item>
     </style>

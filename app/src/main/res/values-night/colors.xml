@@ -4,16 +4,16 @@
     <color name="white">#FFFFFFFF</color>
 
     <!-- Colores Personalizados -->
-    <color name="fondo">#FFFFFFFF</color>
-    <color name="fondoContenedor">#F6F6F7</color>
-    <color name="interiorContenedor">#E7E8EC</color>
-    <color name="fondoMenu">#F6F6F7</color>
+    <color name="fondo">#252121</color>
+    <color name="fondoContenedor">#202127</color>
+    <color name="interiorContenedor">#2B2F36</color>
+    <color name="fondoMenu">#131111</color>
 
     <color name="rojo">#d84642</color>
     <color name="amarillo">#f9a900</color>
     <color name="amarilloTranslucido">#33F9A900</color>
     <color name="amarilloSecundario">#ffda4a</color>
-    <color name="blancoTexto">#DADADA</color>
-    <color name="azulInterfaz">#4290D8</color>
+    <color name="azulInterfaz">#7983E9</color>
+
 
 </resources>
