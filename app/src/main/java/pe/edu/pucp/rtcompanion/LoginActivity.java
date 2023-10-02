@@ -2,15 +2,24 @@ package pe.edu.pucp.rtcompanion;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -26,15 +35,23 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         progressBar = findViewById(R.id.pbLogin);
+        progressBar.setVisibility(View.VISIBLE);
+
         inputServer = findViewById(R.id.etLoginIP);
         inputCorreo = findViewById(R.id.etLoginCorreo);
         inputPwd = findViewById(R.id.etLoginPswd);
         inputPwd.setErrorIconDrawable(null);
 
+        // TODO: Implementar Logueo
+        if (existenCred()){
+        }
+
         progressBar.setVisibility(View.GONE);
     }
 
     public void logueo (View view){
+
+        progressBar.setVisibility(View.VISIBLE);
 
         String server = inputServer.getEditText().getText().toString().trim();
         String correo = inputCorreo.getEditText().getText().toString().trim();
@@ -42,11 +59,22 @@ public class LoginActivity extends AppCompatActivity {
 
         if (datosValidos(server,correo,pwd)){
 
+            // Se guarda el archivo de credenciales en memoria interna
+            String archivo = "credenciales";
+            String contenido = server + "\n" + correo + "\n" + pwd;
+
+            //Se utiliza la clase FileOutputStream para poder almacenar en Android
+            try (FileOutputStream fileOutputStream = this.openFileOutput(archivo, Context.MODE_PRIVATE);
+                 FileWriter fileWriter = new FileWriter(fileOutputStream.getFD())) {
+                fileWriter.write(contenido);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
             startActivity(new Intent(getApplicationContext(),ListaTicketsActivity.class)
                     .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
 
-
-            // Se logueo con Firebase Auth
+        // Se logueo con Firebase Auth
             /*
             auth.signInWithEmailAndPassword(correo,pwd)
                     .addOnCompleteListener(logueo -> {
@@ -105,7 +133,30 @@ public class LoginActivity extends AppCompatActivity {
         } else {progressBar.setVisibility(View.GONE);}
     }
 
-    public boolean datosValidos (String server, String correo, String pwd){
+    private boolean existenCred(){
+        String fileName = "credenciales";
+
+        try (FileInputStream fileInputStream = openFileInput(fileName);
+             FileReader fileReader = new FileReader(fileInputStream.getFD());
+             BufferedReader bufferedReader = new BufferedReader(fileReader)) {
+
+            inputServer.getEditText().setText(bufferedReader.readLine());
+            inputCorreo.getEditText().setText(bufferedReader.readLine());
+            inputPwd.getEditText().setText(bufferedReader.readLine());
+
+            return true;
+
+        } catch (IOException e) {
+            return false;
+        }
+    }
+
+    public void pasarRapido(View view){
+        startActivity(new Intent(getApplicationContext(),ListaTicketsActivity.class)
+                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+    }
+
+    private boolean datosValidos (String server, String correo, String pwd){
         progressBar.setVisibility(View.VISIBLE);
         boolean valido = true;
 

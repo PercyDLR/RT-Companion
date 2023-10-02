@@ -90,7 +90,7 @@ public class CuentaUsuarioActivity extends AppCompatActivity {
                     dialogInterface.cancel();
                 })).setPositiveButton("Cerrar Sesión", ((dialogInterface, i) -> {
                     // auth.signOut();
-                    startActivity(new Intent(CuentaUsuarioActivity.this, MainActivity.class));
+                    startActivity(new Intent(CuentaUsuarioActivity.this, LoginActivity.class));
                     dialogInterface.dismiss();
                     finish();
                 })).show();

@@ -157,10 +157,10 @@
                     </androidx.cardview.widget.CardView>
 
                     <Button
-                        android:id="@+id/btnCambiarPwdUsuario"
+                        android:id="@+id/btnCerrarSesión"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:onClick="cambiarContrasena"
+                        android:onClick="logout"
                         android:text="Cerrar Sesión"
                         android:textColor="@color/fondoContenedor"
                         android:textStyle="bold" />
