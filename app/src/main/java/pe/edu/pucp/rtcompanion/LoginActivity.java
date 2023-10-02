@@ -41,6 +41,11 @@ public class LoginActivity extends AppCompatActivity {
         String pwd = inputPwd.getEditText().getText().toString().trim();
 
         if (datosValidos(server,correo,pwd)){
+
+            startActivity(new Intent(getApplicationContext(),ListaTicketsActivity.class)
+                    .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+
+
             // Se logueo con Firebase Auth
             /*
             auth.signInWithEmailAndPassword(correo,pwd)

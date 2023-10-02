@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/navigation_operaciones"
+        android:id="@+id/navigation_tickets"
         android:icon="@drawable/ticket_selector"
         android:enabled="true"
         android:title="Operaciones"/>
 
     <item
-        android:id="@+id/navigation_cuenta_admin"
+        android:id="@+id/navigation_info_cuenta"
         android:icon="@drawable/cuenta_selector"
         android:enabled="true"
         android:title="Cuenta"/>

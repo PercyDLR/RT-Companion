@@ -190,6 +190,7 @@
         android:layout_height="wrap_content"
         app:elevation="6dp"
         app:itemIconTint="@color/bottom_nav_selector"
+        app:itemTextColor="@color/navbar"
         app:itemActiveIndicatorStyle="@style/App.Custom.Indicator"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
