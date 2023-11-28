@@ -23,67 +23,67 @@
             android:id="@+id/textView18"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:textStyle="bold"
             android:layout_marginBottom="40dp"
             android:gravity="center"
-            android:text="@string/mensajeBienvenida" />
+            android:text="@string/mensajeBienvenida"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/etLoginIP"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:hint="Dirección del Servidor"
             app:boxBackgroundColor="@color/fondoContenedor"
             app:boxStrokeErrorColor="@color/amarillo"
-            app:errorIconTint="@color/amarillo"
-            app:errorTextColor="@color/amarillo"
             app:errorEnabled="true"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            app:errorIconTint="@color/amarillo"
+            app:errorTextColor="@color/amarillo">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textUri"/>
+                android:inputType="textUri" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/etLoginCorreo"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:hint="Correo"
-            app:boxStrokeErrorColor="@color/amarillo"
+            android:hint="Usuario"
             app:boxBackgroundColor="@color/fondoContenedor"
-            app:errorIconTint="@color/amarillo"
-            app:errorTextColor="@color/amarillo"
+            app:boxStrokeErrorColor="@color/amarillo"
             app:errorEnabled="true"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            app:errorIconTint="@color/amarillo"
+            app:errorTextColor="@color/amarillo">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"/>
+                android:inputType="textEmailAddress" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/etLoginPswd"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Contraseña"
-            app:boxStrokeErrorColor="@color/amarillo"
             app:boxBackgroundColor="@color/fondoContenedor"
+            app:boxStrokeErrorColor="@color/amarillo"
+            app:errorEnabled="true"
             app:errorIconTint="@color/amarillo"
             app:errorTextColor="@color/amarillo"
-            app:errorEnabled="true"
-            app:passwordToggleEnabled="true"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            app:passwordToggleEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPassword"/>
+                android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
@@ -91,33 +91,62 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:layout_marginBottom="40dp"
-            android:onClick="logueo"
+            android:onClick="submit"
             android:padding="10dp"
             android:text="Iniciar Sesión"
-            android:textStyle="bold"
-            android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/textView19"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:textColor="@color/azulInterfaz"
-            android:text="¿Olvidó su contraseña?"
-            android:onClick="pasarRapido"/>
+            android:textStyle="bold" />
+
     </LinearLayout>
 
-    <ProgressBar
+    <FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/pbLogin"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="175dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:visibility="gone"/>
+        android:alpha="0.7"
+        android:animateLayoutChanges="true"
+        android:background="@android:color/black"
+        android:visibility="gone">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/fondoContenedor"
+            app:cardCornerRadius="10dp"
+            android:layout_gravity="center">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/fondoContenedor"
+                android:orientation="vertical"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="20dp">
+
+                <ProgressBar
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="10dp"
+                    android:indeterminate="true"
+                    android:indeterminateTintMode="src_atop"
+                    android:indeterminateTint="@color/azulInterfaz"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:background="@color/fondoContenedor"
+                    android:text="Iniciando Sesión"
+                    android:textAlignment="center"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
