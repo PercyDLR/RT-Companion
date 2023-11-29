@@ -28,6 +28,8 @@ import java.time.temporal.TemporalAdjusters;
 import java.util.HashMap;
 import java.util.Map;
 
+import pe.edu.pucp.rtcompanion.dtos.UserDTO;
+
 public class CuentaUsuarioActivity extends AppCompatActivity {
 
     private BottomNavigationView bottomNavigationView;
@@ -43,12 +45,16 @@ public class CuentaUsuarioActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.pbCuentaUsuario);
         progressBar.setVisibility(View.VISIBLE);
 
-        // Se setea la navbar
-        configurarNavBar();
+        // Se obtienen los datos del usuario
+        UserDTO usuario = (UserDTO) getIntent().getExtras().get("usuario");
+        configurarNavBar(usuario);
 
         tvNombreCompleto = findViewById(R.id.tvNombreCuentaUsuario);
         tvCorreo = findViewById(R.id.tvCorreoCuentaUsuario);
         tvRol = findViewById(R.id.tvTICuentaUsuario);
+
+        tvNombreCompleto.setText(usuario.getNombreCompleto());
+        tvCorreo.setText(usuario.getCorreo());
 
         // Se llena la información del usuario
 
@@ -96,7 +102,7 @@ public class CuentaUsuarioActivity extends AppCompatActivity {
                 })).show();
     }
 
-    public void configurarNavBar(){
+    public void configurarNavBar(UserDTO usuario){
 
         bottomNavigationView = findViewById(R.id.nvCuentaUsuario);
         bottomNavigationView.setSelectedItemId(R.id.navigation_info_cuenta);
@@ -104,8 +110,10 @@ public class CuentaUsuarioActivity extends AppCompatActivity {
         bottomNavigationView.setOnItemSelectedListener(item -> {
 
             if (R.id.navigation_tickets == item.getItemId()){
-                startActivity(new Intent(getApplicationContext(),ListaTicketsActivity.class)
-                        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                Intent intent = new Intent(getApplicationContext(), ListaTicketsActivity.class)
+                        .putExtra("usuario",usuario)
+                        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
                 overridePendingTransition(0,0);
                 return true;
             }
