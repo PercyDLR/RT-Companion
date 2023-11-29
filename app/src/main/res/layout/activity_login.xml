@@ -39,6 +39,8 @@
             app:boxBackgroundColor="@color/fondoContenedor"
             app:boxStrokeErrorColor="@color/amarillo"
             app:errorEnabled="true"
+            app:prefixText="https://"
+            app:prefixTextColor="@color/azulInterfaz"
             app:errorIconTint="@color/amarillo"
             app:errorTextColor="@color/amarillo">
 

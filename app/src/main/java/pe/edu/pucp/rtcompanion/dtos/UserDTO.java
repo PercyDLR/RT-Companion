@@ -2,61 +2,67 @@ package pe.edu.pucp.rtcompanion.dtos;
 
 import com.google.gson.annotations.SerializedName;
 
-public class UserDTO {
-    String LastUpdated;
-    Integer Disabled;
-    String AuthToken;
-    Integer Privileged;
-    String Comments;
+import java.io.Serializable;
+
+public class UserDTO implements Serializable {
+    @SerializedName("Disabled")
+    private
+    Integer estaDeshabilitado;
+    private String AuthToken;
+    private Integer Privileged;
+    private String Comments;
     @SerializedName("Name")
+    private
     String nombre;
     @SerializedName("EmailAddress")
+    private
     String correo;
-    class LastUpdatedBy {
-        String _url;
+    private Integer id;
+    @SerializedName("RealName")
+    private
+    String nombreCompleto;
+    private String Gecos;
+    @SerializedName("Created")
+    private
+    String creacion;
 
+    public Integer getEstaDeshabilitado() {
+        return estaDeshabilitado;
     }
-/*
- {
-    "LastUpdated" : "2023-11-09T07:56:36Z",
-    "Disabled" : "0",
-    "AuthToken" : "bb6fbba502f42b5d",
-    "Privileged" : 1,
-    "Memberships" : [],
-    "CustomFields" : [],
-    "Comments" : "SuperUser",
-    "Name" : "root",
-    "EmailAddress" : "root@localhost",
-    "LastUpdatedBy" : {
-        "_url" : "http://rt5.tesis.cloudns.ph/REST/2.0/user/RT_System",
-        "id" : "RT_System",
-        "type" : "user"
-    },
-    "id" : 14,
-    "RealName" : "Enoch Root",
-    "Gecos" : "root",
-    "_hyperlinks" : [
-        {
-            "_url" : "http://rt5.tesis.cloudns.ph/REST/2.0/user/14",
-            "type" : "user",
-            "ref" : "self",
-            "id" : "14"
-        },
-        {
-            "ref" : "history",
-            "_url" : "http://rt5.tesis.cloudns.ph/REST/2.0/user/14/history"
-        },
-        {
-            "ref" : "memberships",
-            "_url" : "http://rt5.tesis.cloudns.ph/REST/2.0/user/14/groups"
-        }
-    ],
-    "Creator" : {
-        "_url" : "http://rt5.tesis.cloudns.ph/REST/2.0/user/RT_System",
-        "id" : "RT_System",
-        "type" : "user"
-    },
-    "Created" : "2023-11-04T04:40:05Z"
+
+    public String getAuthToken() {
+        return AuthToken;
     }
- */
+
+    public Integer getPrivileged() {
+        return Privileged;
+    }
+
+    public String getComments() {
+        return Comments;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public String getCorreo() {
+        return correo;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public String getNombreCompleto() {
+        return nombreCompleto;
+    }
+
+    public String getGecos() {
+        return Gecos;
+    }
+
+    public String getCreacion() {
+        return creacion;
+    }
 }

@@ -19,6 +19,9 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -31,6 +34,8 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+
+import pe.edu.pucp.rtcompanion.dtos.UserDTO;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -66,66 +71,10 @@ public class LoginActivity extends AppCompatActivity {
         String pwd = inputPwd.getEditText().getText().toString().trim();
 
         if (datosValidos(server,user,pwd)){
-
             login(server,user,pwd,true);
-
-        // Se logueo con Firebase Auth
-            /*
-            auth.signInWithEmailAndPassword(correo,pwd)
-                    .addOnCompleteListener(logueo -> {
-                        if (logueo.isSuccessful() ){
-                            if (auth.getCurrentUser().isEmailVerified()){
-
-                                // Se busca la cuenta en Realtime DB
-                                ref.child(auth.getCurrentUser().getUid()).get()
-                                        .addOnCompleteListener(task -> {
-
-                                            progressBar.setVisibility(View.GONE);
-                                            // Si se encuentra algo en la búsqueda
-                                            if (task.isSuccessful() && task.getResult().exists()){
-
-                                                UsuarioDTO user = task.getResult().getValue(UsuarioDTO.class);
-
-                                                // Si el usuario no fue baneado, se redirige por rol
-                                                if(user.isActivo()){
-                                                    if (user.getRol().equals("admin")){
-                                                        Log.d("logueo", "Logueo Exitoso: admin");
-                                                        startActivity(new Intent(getApplicationContext(), ListaEspaciosActivity.class));
-                                                        finish();
-                                                    } else if (user.getRol().equals("usuario")) {
-                                                        Log.d("logueo", "Logueo Exitoso: usuario");
-                                                        startActivity(new Intent(getApplicationContext(), ListaEspaciosUsuarioActivity.class));
-                                                        finish();
-                                                    } else {
-                                                        Toast.makeText(getApplicationContext(),"No se pudo obtener el rol",Toast.LENGTH_SHORT).show();
-                                                        Log.e("logueo", "No se pudo obtener el rol");
-                                                    }
-                                                } else {
-                                                    Toast.makeText(getApplicationContext(),"Su cuenta se encuentra bloqueada",Toast.LENGTH_SHORT).show();
-                                                    Log.e("logueo", "El usuario se encuentra baneado");
-                                                }
-                                            } else {
-                                                Toast.makeText(getApplicationContext(),task.getException().getMessage(),Toast.LENGTH_SHORT).show();
-                                                Log.e("logueo", task.getException().getMessage());
-                                            }
-                                        });
-                            } else {
-                                progressBar.setVisibility(View.GONE);
-                                Toast.makeText(getApplicationContext(),"Debe verificar su correo para poder loguearse",Toast.LENGTH_SHORT).show();
-                                Log.d("logueo", "Debe verificar su correo para poder loguearse");
-                                inputPwd.getEditText().setText("");
-                                auth.getCurrentUser().sendEmailVerification();
-                            }
-                        } else {
-                            progressBar.setVisibility(View.GONE);
-                            Log.e("logueo", logueo.getException().getMessage());
-                            inputPwd.getEditText().setText("");
-                            inputPwd.setError("Correo o Contraseña inválidos");
-                            inputCorreo.setError("Correo o Contraseña inválidos");
-                        }
-                    });
-            */
-        } else {progressBar.setVisibility(View.GONE);}
+        } else {
+            progressBar.setVisibility(View.GONE);
+        }
     }
 
     private void verifyCred(){
@@ -144,11 +93,11 @@ public class LoginActivity extends AppCompatActivity {
             inputUser.getEditText().setText(user);
             inputPwd.getEditText().setText(pwd);
 
+            login(server,user,pwd,false);
+
         } catch (IOException e) {
             Log.i("logueo", "El archivo de credenciales aún no existe");
         }
-
-        login(server,user,pwd,false);
     }
 
     // Se realiza el logueo
@@ -158,11 +107,11 @@ public class LoginActivity extends AppCompatActivity {
 
         Log.i("logueo", String.format("Server: %s\nUser: %s\nPwd: %s",server,user,pwd));
 
-        String url = server + "/REST/2.0/user/" + user;
+        String url = "https://" + server + "/REST/2.0/user/" + user;
         Log.i("logueo", "URL: "+url);
         StringRequest request = new StringRequest(Request.Method.GET, url,
                 response ->  {
-                    Log.d("logueo", response);
+                    Log.i("logueo", "JSON antes:\n"+response);
                     if (saveNew) {
                         // Se guarda el archivo de credenciales en memoria interna
                         String archivo = "credenciales";
@@ -177,8 +126,24 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     }
 
-                    startActivity(new Intent(getApplicationContext(),ListaTicketsActivity.class)
-                            .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                    // Se guarda el JSON en una clase usuario
+                    Gson gson = new Gson();
+                    UserDTO usuario = gson.fromJson(response,UserDTO.class);
+                    Log.i("logueo", "Objeto generado: " + usuario.getCorreo());
+                    /*
+                    JsonObject o = JsonParser.parseString(response).getAsJsonObject();
+                    o.remove("LastUpdatedBy");
+                    o.remove("_hyperlinks");
+                    o.remove("Creator");
+
+                    Log.i("logueo", "JSON despues:\n"+o);
+                    UserDTO usuario = gson.fromJson(o,UserDTO.class);
+                    Log.i("logueo", "Objeto generado:" + gson.toJson(usuario)
+                     */
+
+                    Intent intent = new Intent(getApplicationContext(),ListaTicketsActivity.class);
+                    intent.putExtra("usuario",usuario).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
                 },
                 error -> {
                     Log.e("logueo", error.getMessage());
@@ -207,8 +172,9 @@ public class LoginActivity extends AppCompatActivity {
         inputUser.setError(null);
         inputPwd.setError(null);
 
+        // Se valida que la URL sea válida
         try {
-            new URL(server).toURI();
+            new URL("https://" + server).toURI();
         } catch (MalformedURLException | URISyntaxException e) {
             inputServer.setError("La URL ingresada no es válida");
             valido = false;
