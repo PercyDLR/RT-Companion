@@ -44,11 +44,12 @@ public class ListaTicketsAdapter extends RecyclerView.Adapter<ListaTicketsAdapte
 
         // Se mapean los elementos del fragmento
         TextView encabezado = holder.itemView.findViewById(R.id.rvEncabezadoTicket);
-        // TextView contador = holder.itemView.findViewById(R.id.rvContadorEspacio);
-        ImageButton boton = holder.itemView.findViewById(R.id.rvBotonDetallesEspacio);
+        TextView dias = holder.itemView.findViewById(R.id.rvFechaTicket);
+        TextView prioridad = holder.itemView.findViewById(R.id.rvPrioridadTicket);
+        ImageButton boton = holder.itemView.findViewById(R.id.rvBotonDetallesTicket);
 
         // TODO: Extraer valores desde la API
-        // encabezado.setText(ticket.getNombre());
+        encabezado.setText(ticket.getAsunto());
         // contador.setText(espacio.getHorariosDisponibles().toString());
 
         //boton.setOnClickListener(view -> {

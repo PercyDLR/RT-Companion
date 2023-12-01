@@ -37,6 +37,7 @@
                     android:layout_height="wrap_content"
                     android:text="Encabezado"
                     android:textSize="20sp"
+                    android:textStyle="bold"
                     android:maxEms="7"
                     android:maxLines="1"
                     android:ellipsize="end"/>
@@ -50,16 +51,42 @@
                         android:id="@+id/textView20"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Horarios Disponibles: "
+                        android:text="Hace "
                         android:paddingEnd="5dp"
-                        android:textColor="@color/azulInterfaz"
                         android:textSize="12sp" />
                     <TextView
-                        android:id="@+id/rvContadorEspacio"
+                        android:id="@+id/rvFechaTicket"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Contador"
+                        android:text="5d"
                         android:textSize="12sp"
+                        android:paddingEnd="5dp"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:id="@+id/textView21"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="-"
+                        android:textSize="12sp"
+                        android:paddingEnd="5dp"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:id="@+id/textView22"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Prioridad"
+                        android:textSize="12sp"
+                        android:paddingEnd="2dp"
+                        android:textColor="@color/azulInterfaz"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:id="@+id/rvPrioridadTicket"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Alta"
+                        android:textSize="12sp"
+                        android:paddingEnd="2dp"
+                        android:textColor="@color/azulInterfaz"
                         android:textStyle="bold"/>
 
                 </LinearLayout>
@@ -71,7 +98,7 @@
                 android:layout_height="1dp"/>
 
             <ImageButton
-                android:id="@+id/rvBotonDetallesEspacio"
+                android:id="@+id/rvBotonDetallesTicket"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_gravity="center_vertical"

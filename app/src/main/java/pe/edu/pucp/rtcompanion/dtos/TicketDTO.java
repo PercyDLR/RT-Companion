@@ -7,21 +7,28 @@ import com.google.gson.annotations.SerializedName;
 import java.util.Date;
 
 public class TicketDTO {
-    class Usuario {
+    private class Usuario {
         String id;
         String _url;
         String type;
     }
     @SerializedName("Subject")
-    String asunto;
+    private String asunto;
     @SerializedName("Owner")
-    Usuario creador;
+    private Usuario creador;
     @SerializedName("Requestor")
-    Usuario[] requestors;
+    private Usuario[] requestors;
     @SerializedName("Created")
-    Date fechaCreacion;
+    private Date fechaCreacion;
     @SerializedName("Due")
-    Date fechaCierre;
+    private Date fechaCierre;
     @SerializedName("Status")
-    String estado;
+    private String estado;
+
+    public String getAsunto() {return asunto;}
+    public Usuario getCreador() {return creador;}
+    public Usuario[] getRequestors() {return requestors;}
+    public Date getFechaCreacion() {return fechaCreacion;}
+    public Date getFechaCierre() {return fechaCierre;}
+    public String getEstado() {return estado;}
 }
