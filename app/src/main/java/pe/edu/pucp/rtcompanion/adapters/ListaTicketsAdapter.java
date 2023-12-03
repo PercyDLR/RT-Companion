@@ -2,7 +2,6 @@ package pe.edu.pucp.rtcompanion.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,8 +51,6 @@ public class ListaTicketsAdapter extends RecyclerView.Adapter<ListaTicketsAdapte
         TextView dias = holder.itemView.findViewById(R.id.rvFechaTicket);
         TextView prioridad = holder.itemView.findViewById(R.id.rvPrioridadTicket);
         ImageButton boton = holder.itemView.findViewById(R.id.rvBotonDetallesTicket);
-
-        // TODO: Extraer valores desde la API
 
         // Título
         encabezado.setText(ticket.getAsunto().equals("") ? "Sin Asunto":ticket.getAsunto());

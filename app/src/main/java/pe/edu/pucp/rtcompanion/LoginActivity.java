@@ -78,6 +78,9 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void verifyCred(){
+
+        progressBar.setVisibility(View.VISIBLE);
+
         String fileName = "credenciales";
         String server="", user="", pwd="";
 
@@ -129,21 +132,16 @@ public class LoginActivity extends AppCompatActivity {
                     // Se guarda el JSON en una clase usuario
                     Gson gson = new Gson();
                     UserDTO usuario = gson.fromJson(response,UserDTO.class);
-                    Log.i("logueo", "Objeto generado: " + usuario.getCorreo());
-                    /*
-                    JsonObject o = JsonParser.parseString(response).getAsJsonObject();
-                    o.remove("LastUpdatedBy");
-                    o.remove("_hyperlinks");
-                    o.remove("Creator");
+                    Log.i("logueo", "Objeto generado: " + usuario.getEstaDeshabilitado());
 
-                    Log.i("logueo", "JSON despues:\n"+o);
-                    UserDTO usuario = gson.fromJson(o,UserDTO.class);
-                    Log.i("logueo", "Objeto generado:" + gson.toJson(usuario)
-                     */
-
-                    Intent intent = new Intent(getApplicationContext(),ListaTicketsActivity.class);
-                    intent.putExtra("usuario",usuario).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
+                    if (usuario.getEstaDeshabilitado() == 0) {
+                        Intent intent = new Intent(getApplicationContext(),ListaTicketsActivity.class);
+                        intent.putExtra("usuario",usuario).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                    }
+                    else {
+                        Toast.makeText(LoginActivity.this, "El usuario con el que tratas de ingresar está deshabilitado en el sistema. Comunícate con tu administrador para resolver el problema.", Toast.LENGTH_SHORT).show();
+                    }
                 },
                 error -> {
                     Log.e("logueo", error.getMessage());

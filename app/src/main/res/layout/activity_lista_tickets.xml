@@ -72,6 +72,27 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
+                <LinearLayout
+                    android:id="@+id/pbListaTickets"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <ProgressBar
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:indeterminate="true"
+                        android:indeterminateTintMode="src_atop"
+                        android:indeterminateTint="@color/azulInterfaz"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:textSize="20sp"
+                        android:paddingTop="20dp"
+                        android:textColor="@color/azulInterfaz"
+                        android:textStyle="bold"
+                        android:text="Cargando Tickets..."/>
+                </LinearLayout>
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>

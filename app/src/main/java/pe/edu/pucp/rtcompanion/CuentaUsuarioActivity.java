@@ -56,6 +56,8 @@ public class CuentaUsuarioActivity extends AppCompatActivity {
         tvNombreCompleto.setText(usuario.getNombreCompleto());
         tvCorreo.setText(usuario.getCorreo());
 
+        //TODO: Agregar campos extra como teléfono, Ubicación, Grupo, Organización
+
         // Se llena la información del usuario
 
        /*
@@ -95,7 +97,7 @@ public class CuentaUsuarioActivity extends AppCompatActivity {
                 .setNegativeButton("Cancelar",((dialogInterface, i) -> {
                     dialogInterface.cancel();
                 })).setPositiveButton("Cerrar Sesión", ((dialogInterface, i) -> {
-                    // auth.signOut();
+                    deleteFile("credenciales");
                     startActivity(new Intent(CuentaUsuarioActivity.this, LoginActivity.class));
                     dialogInterface.dismiss();
                     finish();
