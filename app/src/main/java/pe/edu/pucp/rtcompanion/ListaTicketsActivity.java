@@ -1,12 +1,9 @@
 package pe.edu.pucp.rtcompanion;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Base64;
@@ -23,20 +20,20 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
+import pe.edu.pucp.rtcompanion.adapters.ListaTicketsAdapter;
 import pe.edu.pucp.rtcompanion.dtos.TicketDTO;
 import pe.edu.pucp.rtcompanion.dtos.UserDTO;
 
@@ -44,14 +41,15 @@ public class ListaTicketsActivity extends AppCompatActivity {
 
     private BottomNavigationView bottomNavigationView;
     private TextInputLayout buscadorEspacios;
+    private UserDTO usuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_tickets);
         // Se obtienen los datos del usuario
-        UserDTO usuario = (UserDTO) getIntent().getExtras().get("usuario");
-        configurarNavBar(usuario);
+        usuario = (UserDTO) getIntent().getExtras().get("usuario");
+        configurarNavBar();
 
         // Se obtienen los datos de conexion
         String fileName = "credenciales";
@@ -143,7 +141,7 @@ public class ListaTicketsActivity extends AppCompatActivity {
 
         // Se crea el request de Volley
         RequestQueue queue = Volley.newRequestQueue(ListaTicketsActivity.this);
-        String url = "https://" + server + "/REST/2.0/tickets?query=(Status = 'new' OR Status = 'open')&fields=Owner,Status,Created,Subject,Queue,CustomFields,Requestor,Cc,AdminCc,CustomRoles";
+        String url = "https://" + server + "/REST/2.0/tickets?query=(Status = 'new' OR Status = 'open')&fields=Owner,Status,Created,Subject,Queue,CustomFields,Requestor,Cc,AdminCc,CustomRoles,Priority";
         Log.i("tickets", "URL: "+url);
 
         StringRequest request = new StringRequest(Request.Method.GET, url,
@@ -155,9 +153,20 @@ public class ListaTicketsActivity extends AppCompatActivity {
                     Log.i("tickets", "JSON despues:\n"+o);
 
                     // Se guarda el JSON en una clase tickets
-                    Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").create();;
-                    TicketDTO[] listaTickets = gson.fromJson(o,TicketDTO[].class);
-                    Log.i("tickets", "Objeto generado: " + gson.toJson(listaTickets));
+                    Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").create();
+                    Type type = new TypeToken<ArrayList<TicketDTO>>(){}.getType();
+                    ArrayList<TicketDTO> listaTickets = gson.fromJson(o, type);
+
+                    // Se definen los elementos del adapter
+                    ListaTicketsAdapter adapter = new ListaTicketsAdapter();
+                    adapter.setListaTickets(listaTickets);
+                    adapter.setUsuario(usuario);
+                    adapter.setContext(ListaTicketsActivity.this);
+
+                    // Se vincula con el Recycler View
+                    RecyclerView recyclerView = findViewById(R.id.rvListaTickets);
+                    recyclerView.setAdapter(adapter);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                 /*
 [{"AdminCc":[],"Created":"2023-11-07T05:19:39Z","Requestor":[{"id":"root","_url":"http://rt5.tesis.cloudns.ph/REST/2.0/user/root","type":"user"}],"Queue":{"id":"1","type":"queue","_url":"http://rt5.tesis.cloudns.ph/REST/2.0/queue/1"},"Subject":"Prueba para la tesis","type":"ticket","Status":"new","Cc":[],"CustomRoles":{},"id":"1","Owner":{"type":"user","_url":"http://rt5.tesis.cloudns.ph/REST/2.0/user/Nobody","id":"Nobody"},"_url":"http://rt5.tesis.cloudns.ph/REST/2.0/ticket/1","CustomFields":""},{"Subject":"prueba tesis 2","Requestor":[{"id":"root","_url":"http://rt5.tesis.cloudns.ph/REST/2.0/user/root","type":"user"}],"Queue":{"id":"1","_url":"http://rt5.tesis.cloudns.ph/REST/2.0/queue/1","type":"queue"},"Created":"2023-11-07T05:38:15Z","AdminCc":[],"Cc":[],"CustomRoles":{},"type":"ticket","Status":"new","Owner":{"id":"Nobody","type":"user","_url":"http://rt5.tesis.cloudns.ph/REST/2.0/user/Nobody"},"id":"2","CustomFields":"","_url":"http://rt5.tesis.cloudns.ph/REST/2.0/ticket/2"},{"Owner":{"_url":"http://rt5.tesis.cloudns.ph/REST/2.0/user/root","type":"user","id":"root"},"id":"3","CustomFields":"","_url":"http://rt5.tesis.cloudns.ph/REST/2.0/ticket/3","Requestor":[{"type":"user","_url":"http://rt5.tesis.cloudns.ph/REST/2.0/user/root","id":"root"}],"Created":"2023-11-09T07:07:30Z","Queue":{"_url":"http://rt5.tesis.cloudns.ph/REST/2.0/queue/1","type":"queue","id":"1"},"Subject":"","AdminCc":[],"Cc":[],"CustomRoles":{},"type":"ticket","Status":"new"}]
 
@@ -190,7 +199,7 @@ public class ListaTicketsActivity extends AppCompatActivity {
     }
 
 
-    public void configurarNavBar(UserDTO usuario){
+    public void configurarNavBar(){
         bottomNavigationView = findViewById(R.id.nvListaTickets);
         bottomNavigationView.setSelectedItemId(R.id.navigation_tickets);
 

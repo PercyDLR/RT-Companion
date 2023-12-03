@@ -64,7 +64,7 @@
                     android:textSize="24sp" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rvListaEspaciosUsuario"
+                    android:id="@+id/rvListaTickets"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:scrollbars="vertical"

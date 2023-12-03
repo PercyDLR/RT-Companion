@@ -4,9 +4,10 @@ import android.graphics.ColorMatrix;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class TicketDTO {
+public class TicketDTO implements Serializable {
     private class Usuario {
         String id;
         String _url;
@@ -24,6 +25,8 @@ public class TicketDTO {
     private Date fechaCierre;
     @SerializedName("Status")
     private String estado;
+    @SerializedName("Priority")
+    private String prioridad;
 
     public String getAsunto() {return asunto;}
     public Usuario getCreador() {return creador;}
@@ -31,4 +34,5 @@ public class TicketDTO {
     public Date getFechaCreacion() {return fechaCreacion;}
     public Date getFechaCierre() {return fechaCierre;}
     public String getEstado() {return estado;}
+    public String getPrioridad() {return prioridad;}
 }
