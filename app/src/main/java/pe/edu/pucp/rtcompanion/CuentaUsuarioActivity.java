@@ -33,7 +33,7 @@ import pe.edu.pucp.rtcompanion.dtos.UserDTO;
 public class CuentaUsuarioActivity extends AppCompatActivity {
 
     private BottomNavigationView bottomNavigationView;
-    private TextView tvNombreCompleto, tvCorreo, tvRol;
+    private TextView tvNombreCompleto, tvCorreo, tvTelefono, tvDireccion, tvCiudad, tvPais, tvNombreOrg, tvRol;
     private ProgressBar progressBar;
 
     @Override
@@ -51,12 +51,18 @@ public class CuentaUsuarioActivity extends AppCompatActivity {
 
         tvNombreCompleto = findViewById(R.id.tvNombreCuentaUsuario);
         tvCorreo = findViewById(R.id.tvCorreoCuentaUsuario);
-        tvRol = findViewById(R.id.tvTICuentaUsuario);
+        tvTelefono = findViewById(R.id.tvTelefonoCuentaUsuario);
+        tvDireccion = findViewById(R.id.tvDireccionCuentaUsuario);
+        tvCiudad = findViewById(R.id.tvCiudadCuentaUsuario);
+        tvPais = findViewById(R.id.tvPaisCuentaUsuario);
+        tvNombreOrg = findViewById(R.id.tvNombreOrgCuentaUsuario);
+        tvRol = findViewById(R.id.tvRolOrgCuentaUsuario);
 
         tvNombreCompleto.setText(usuario.getNombreCompleto());
         tvCorreo.setText(usuario.getCorreo());
 
         //TODO: Agregar campos extra como teléfono, Ubicación, Grupo, Organización
+
 
         // Se llena la información del usuario
 
