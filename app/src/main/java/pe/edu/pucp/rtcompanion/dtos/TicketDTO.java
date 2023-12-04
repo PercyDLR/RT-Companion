@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class TicketDTO implements Serializable {
-    private class Usuario {
+    private class Usuario implements Serializable {
         String id;
         String _url;
         String type;
