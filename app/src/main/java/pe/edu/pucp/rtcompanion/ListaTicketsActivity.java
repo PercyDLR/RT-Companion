@@ -91,7 +91,7 @@ public class ListaTicketsActivity extends AppCompatActivity {
 
         // Se crea el request de Volley
         RequestQueue queue = Volley.newRequestQueue(ListaTicketsActivity.this);
-        String url = "https://" + server + "/REST/2.0/tickets?query=((Status = 'new' OR Status = 'open') AND Subject LIKE '"+busqueda+"')&fields=Owner,Status,Created,Subject,Queue,CustomFields,Requestor,Cc,AdminCc,CustomRoles,Priority";
+        String url = "https://" + server + "/REST/2.0/tickets?query=((Status != 'resolved' AND Status != 'stalled' AND Status != 'rejected') AND Subject LIKE '"+busqueda+"')&fields=Owner,Status,Created,Subject,Queue,CustomFields,Requestor,Cc,AdminCc,CustomRoles,Priority,Due";
         Log.i("tickets", "URL: "+url);
 
         StringRequest request = new StringRequest(Request.Method.GET, url,

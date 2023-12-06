@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import java.io.BufferedReader;
@@ -24,6 +25,7 @@ import java.util.Map;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,6 +50,8 @@ import java.time.temporal.TemporalAdjusters;
 import java.util.HashMap;
 import java.util.Map;
 
+import eightbitlab.com.blurview.BlurView;
+import eightbitlab.com.blurview.RenderScriptBlur;
 import pe.edu.pucp.rtcompanion.adapters.ListaTicketsAdapter;
 import pe.edu.pucp.rtcompanion.dtos.TicketDTO;
 import pe.edu.pucp.rtcompanion.dtos.UserDTO;
@@ -56,7 +60,7 @@ public class CuentaUsuarioActivity extends AppCompatActivity {
 
     private BottomNavigationView bottomNavigationView;
     private TextView tvNombreCompleto, tvCorreo, tvTelefono, tvDireccion, tvCiudad, tvPais, tvNombreOrg, tvRol, tvAlias, tvCelular;
-    private ProgressBar progressBar;
+    private BlurView progressBar;
     private String server, user, pwd;
 
     @Override
@@ -66,6 +70,7 @@ public class CuentaUsuarioActivity extends AppCompatActivity {
 
         // Se setea la progressbar
         progressBar = findViewById(R.id.pbCuentaUsuario);
+        setupBlur();
         progressBar.setVisibility(View.VISIBLE);
 
         // Se obtienen los datos del usuario
@@ -162,6 +167,22 @@ public class CuentaUsuarioActivity extends AppCompatActivity {
                     dialogInterface.dismiss();
                     finish();
                 })).show();
+    }
+
+    private void setupBlur(){
+        View decorView = getWindow().getDecorView();
+        // ViewGroup you want to start blur from. Choose root as close to BlurView in hierarchy as possible.
+        ViewGroup rootView = decorView.findViewById(android.R.id.content);
+
+        // Optional:
+        // Set drawable to draw in the beginning of each blurred frame.
+        // Can be used in case your layout has a lot of transparent space and your content
+        // gets a too low alpha value after blur is applied.
+        Drawable windowBackground = decorView.getBackground();
+
+        progressBar.setupWith(rootView, new RenderScriptBlur(this))
+                .setFrameClearDrawable(windowBackground)
+                .setBlurRadius(15f);
     }
 
     public void configurarNavBar(UserDTO usuario){

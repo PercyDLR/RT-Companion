@@ -4,10 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -35,11 +37,13 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
+import eightbitlab.com.blurview.BlurView;
+import eightbitlab.com.blurview.RenderScriptBlur;
 import pe.edu.pucp.rtcompanion.dtos.UserDTO;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private View progressBar;
+    private BlurView progressBar;
     private TextInputLayout inputServer, inputUser, inputPwd;
 
     @Override
@@ -48,6 +52,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         progressBar = findViewById(R.id.pbLogin);
+        setupBlur();
         progressBar.setVisibility(View.VISIBLE);
 
         inputServer = findViewById(R.id.etLoginIP);
@@ -57,9 +62,6 @@ public class LoginActivity extends AppCompatActivity {
 
         // Se intenta el logueo automático
         verifyCred();
-
-        // Si falla se muestra
-        progressBar.setVisibility(View.GONE);
     }
 
     public void submit (View view){
@@ -96,9 +98,14 @@ public class LoginActivity extends AppCompatActivity {
             inputUser.getEditText().setText(user);
             inputPwd.getEditText().setText(pwd);
 
-            login(server,user,pwd,false);
+            if (datosValidos(server,user,pwd)){
+                login(server,user,pwd,false);
+            } else {
+                progressBar.setVisibility(View.GONE);
+            }
 
         } catch (IOException e) {
+            progressBar.setVisibility(View.GONE);
             Log.i("logueo", "El archivo de credenciales aún no existe");
         }
     }
@@ -184,5 +191,21 @@ public class LoginActivity extends AppCompatActivity {
             valido = false;
         }
         return valido;
+    }
+
+    private void setupBlur(){
+        View decorView = getWindow().getDecorView();
+        // ViewGroup you want to start blur from. Choose root as close to BlurView in hierarchy as possible.
+        ViewGroup rootView = decorView.findViewById(android.R.id.content);
+
+        // Optional:
+        // Set drawable to draw in the beginning of each blurred frame.
+        // Can be used in case your layout has a lot of transparent space and your content
+        // gets a too low alpha value after blur is applied.
+        Drawable windowBackground = decorView.getBackground();
+
+        progressBar.setupWith(rootView, new RenderScriptBlur(this))
+                .setFrameClearDrawable(windowBackground)
+                .setBlurRadius(15f);
     }
 }

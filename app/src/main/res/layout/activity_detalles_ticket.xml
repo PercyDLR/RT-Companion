@@ -95,16 +95,20 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="10dp"
-                            android:text="Inicio"
+                            android:text="Estado"
                             android:textSize="20sp"
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/tvInicioDetalle"
+                            android:id="@+id/tvEstadoDetalle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Esta es la descripción del Ticket"
-                            android:textSize="14sp" />
+                            android:text="Pendiente"
+                            android:textColor="@color/azulInterfaz"
+                            android:textAlignment="center"
+                            android:textSize="26sp"
+                            android:textAllCaps="true"
+                            android:textStyle="bold"/>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
@@ -126,19 +130,22 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="10dp"
-                            android:text="Fin"
+                            android:text="Prioridad"
                             android:textSize="20sp"
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/tvFinDetalle"
+                            android:id="@+id/tvPrioridadDetalle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Esta es la descripción del Ticket"
-                            android:textSize="14sp" />
+                            android:text="Alta"
+                            android:textColor="@color/azulInterfaz"
+                            android:textAlignment="center"
+                            android:textAllCaps="true"
+                            android:textSize="26sp"
+                            android:textStyle="bold"/>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
-
             </LinearLayout>
 
             <androidx.cardview.widget.CardView
@@ -156,11 +163,10 @@
                     android:padding="20dp">
 
                     <TextView
-                        android:id="@+id/textView12"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingBottom="10dp"
-                        android:text="Créditos"
+                        android:text="Tiempos"
                         android:textSize="20sp"
                         android:textStyle="bold" />
 
@@ -180,7 +186,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal"
-                                android:background="@color/fondo"
+                                android:background="@color/interiorContenedor"
                                 android:paddingTop="10dp"
                                 android:paddingBottom="10dp"
                                 android:paddingStart="20dp"
@@ -192,31 +198,27 @@
                                     android:layout_width="144dp"
                                     android:layout_height="match_parent"
                                     android:layout_weight="1"
-                                    android:text="CRÉDITOS REQUERIDOS:"
+                                    android:text="Inicio"
                                     android:textSize="18sp"
                                     android:gravity="center_vertical"
                                     android:textStyle="bold" />
 
                                 <TextView
-                                    android:id="@+id/tvCreditosRequeridosEspacioDetalles"
+                                    android:id="@+id/tvInicioDetalle"
                                     android:layout_width="wrap_content"
                                     android:layout_height="match_parent"
-                                    android:layout_weight="1"
                                     android:gravity="center_vertical|end"
-                                    android:text="15 / HORA"
-                                    android:textColor="@color/azulInterfaz"
-                                    android:textSize="20sp"
-                                    android:textStyle="bold" />
+                                    android:text="10/12/2023 9:58 AM"
+                                    android:textSize="16sp"/>
                             </LinearLayout>
 
                             <LinearLayout
-                                android:id="@+id/llCreditosRestantesEspacioDetalles"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:paddingTop="10dp"
                                 android:paddingBottom="10dp"
                                 android:paddingStart="20dp"
-                                android:background="@color/fondo"
+                                android:background="@color/interiorContenedor"
                                 android:paddingEnd="20dp"
                                 android:orientation="horizontal">
 
@@ -225,28 +227,203 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="match_parent"
                                     android:layout_weight="1"
+                                    android:text="Fin"
+                                    android:textSize="18sp"
                                     android:gravity="center_vertical"
-                                    android:text="CREDITOS RESTANTES"
-                                    android:textSize="16sp"
                                     android:textStyle="bold" />
 
                                 <TextView
-                                    android:id="@+id/tvCreditosRestantesEspacioDetalles"
+                                    android:id="@+id/tvFinDetalle"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center_vertical|end"
+                                    android:text="25/12/2023"
+                                    android:textSize="16sp"/>
+                            </LinearLayout>
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_marginBottom="30dp"
+                app:cardBackgroundColor="@color/fondoContenedor"
+                app:cardCornerRadius="5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="10dp"
+                        android:text="Participantes"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardBackgroundColor="@color/fondo"
+                        app:cardCornerRadius="20dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@color/fondoContenedor"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:background="@color/interiorContenedor"
+                                android:paddingTop="10dp"
+                                android:paddingBottom="10dp"
+                                android:paddingStart="20dp"
+                                android:paddingEnd="20dp"
+                                android:layout_marginBottom="2dp">
+
+                                <TextView
+                                    android:layout_width="144dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:text="Creador"
+                                    android:textSize="18sp"
+                                    android:gravity="center_vertical"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/tvCreadorDetalle"
                                     android:layout_width="wrap_content"
                                     android:layout_height="match_parent"
                                     android:layout_weight="1"
                                     android:gravity="center_vertical|end"
-                                    android:text="25"
+                                    android:text="root"
                                     android:textColor="@color/azulInterfaz"
-                                    android:textSize="24sp"
+                                    android:textSize="20sp"
                                     android:textStyle="bold" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:paddingTop="10dp"
+                                android:paddingBottom="10dp"
+                                android:paddingStart="20dp"
+                                android:background="@color/interiorContenedor"
+                                android:paddingEnd="20dp"
+                                android:orientation="horizontal"
+                                android:layout_marginBottom="2dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:text="Solicitante(s)"
+                                    android:textSize="18sp"
+                                    android:gravity="center_vertical"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/tvSoliciantesDetalle"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:gravity="center_vertical|end"
+                                    android:text="percydlr\nusuario2\nusuario3"
+                                    android:textSize="16sp"/>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:paddingTop="10dp"
+                                android:paddingBottom="10dp"
+                                android:paddingStart="20dp"
+                                android:background="@color/interiorContenedor"
+                                android:paddingEnd="20dp"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:text="Observadores"
+                                    android:textSize="18sp"
+                                    android:gravity="center_vertical"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/tvObservadoresDetalle"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:gravity="center_vertical|end"
+                                    android:text="percydlr\nusuario2\nusuario3"
+                                    android:textSize="16sp"/>
                             </LinearLayout>
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
-
                 </LinearLayout>
+
             </androidx.cardview.widget.CardView>
 
         </LinearLayout>
     </ScrollView>
+
+    <eightbitlab.com.blurview.BlurView
+        android:id="@+id/pbDetalle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
+        android:visibility="gone">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/fondoContenedor"
+            app:cardCornerRadius="10dp"
+            android:layout_gravity="center">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/fondoContenedor"
+                android:orientation="vertical"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="20dp">
+
+                <ProgressBar
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="10dp"
+                    android:indeterminate="true"
+                    android:indeterminateTintMode="src_atop"
+                    android:indeterminateTint="@color/azulInterfaz"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:background="@color/fondoContenedor"
+                    android:text="Cargando Información"
+                    android:textAlignment="center"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </eightbitlab.com.blurview.BlurView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

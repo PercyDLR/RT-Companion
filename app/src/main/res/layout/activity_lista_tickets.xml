@@ -89,7 +89,6 @@
                         android:textAlignment="center"
                         android:textSize="20sp"
                         android:paddingTop="20dp"
-                        android:textColor="@color/azulInterfaz"
                         android:textStyle="bold"
                         android:text="Cargando Tickets..."/>
                 </LinearLayout>

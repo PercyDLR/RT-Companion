@@ -7,7 +7,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardBackgroundColor="@color/fondo"
+        app:cardBackgroundColor="@color/interiorContenedor"
         app:cardCornerRadius="5dp"
         android:layout_marginBottom="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -102,7 +102,7 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_gravity="center_vertical"
-                android:backgroundTint="@color/fondo"
+                android:backgroundTint="@color/interiorContenedor"
                 android:drawableTint="@color/azulInterfaz"
                 app:tint="@color/azulInterfaz"
                 android:scaleType="fitCenter"
