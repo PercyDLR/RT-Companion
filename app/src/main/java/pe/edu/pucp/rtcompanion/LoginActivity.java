@@ -161,7 +161,7 @@ public class LoginActivity extends AppCompatActivity {
         queue.add(request);
     }
 
-    private boolean datosValidos (String server, String correo, String pwd){
+    private boolean datosValidos (String server, String usuario, String pwd){
         progressBar.setVisibility(View.VISIBLE);
         boolean valido = true;
 
@@ -170,6 +170,12 @@ public class LoginActivity extends AppCompatActivity {
         inputUser.setError(null);
         inputPwd.setError(null);
 
+        // Se valida el usuario ingresado
+        if (usuario.equals("root")) {
+            inputUser.setError("Usuario inválido");
+            Toast.makeText(LoginActivity.this, "No puede ingresar con el usuario root. Intente con otro.", Toast.LENGTH_SHORT).show();
+            valido = false;
+        }
         // Se valida que la URL sea válida
         try {
             new URL("https://" + server).toURI();

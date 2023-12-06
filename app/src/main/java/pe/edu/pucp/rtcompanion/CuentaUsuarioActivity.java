@@ -1,24 +1,44 @@
 package pe.edu.pucp.rtcompanion;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.lang.reflect.Type;
 import java.time.DayOfWeek;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.TemporalAdjusters;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
 
 import java.time.DayOfWeek;
 import java.time.Instant;
@@ -28,13 +48,16 @@ import java.time.temporal.TemporalAdjusters;
 import java.util.HashMap;
 import java.util.Map;
 
+import pe.edu.pucp.rtcompanion.adapters.ListaTicketsAdapter;
+import pe.edu.pucp.rtcompanion.dtos.TicketDTO;
 import pe.edu.pucp.rtcompanion.dtos.UserDTO;
 
 public class CuentaUsuarioActivity extends AppCompatActivity {
 
     private BottomNavigationView bottomNavigationView;
-    private TextView tvNombreCompleto, tvCorreo, tvTelefono, tvDireccion, tvCiudad, tvPais, tvNombreOrg, tvRol;
+    private TextView tvNombreCompleto, tvCorreo, tvTelefono, tvDireccion, tvCiudad, tvPais, tvNombreOrg, tvRol, tvAlias, tvCelular;
     private ProgressBar progressBar;
+    private String server, user, pwd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,51 +72,82 @@ public class CuentaUsuarioActivity extends AppCompatActivity {
         UserDTO usuario = (UserDTO) getIntent().getExtras().get("usuario");
         configurarNavBar(usuario);
 
+        // Se mapean los campos a rellenar
         tvNombreCompleto = findViewById(R.id.tvNombreCuentaUsuario);
+        tvAlias = findViewById(R.id.tvAliasCuentaUsuario);
         tvCorreo = findViewById(R.id.tvCorreoCuentaUsuario);
         tvTelefono = findViewById(R.id.tvTelefonoCuentaUsuario);
+        tvCelular = findViewById(R.id.tvCelularCuentaUsuario);
         tvDireccion = findViewById(R.id.tvDireccionCuentaUsuario);
         tvCiudad = findViewById(R.id.tvCiudadCuentaUsuario);
         tvPais = findViewById(R.id.tvPaisCuentaUsuario);
         tvNombreOrg = findViewById(R.id.tvNombreOrgCuentaUsuario);
         tvRol = findViewById(R.id.tvRolOrgCuentaUsuario);
 
+        // Se setean sus valores
         tvNombreCompleto.setText(usuario.getNombreCompleto());
+        tvAlias.setText(usuario.getAlias());
         tvCorreo.setText(usuario.getCorreo());
+        tvTelefono.setText(usuario.getTelefono().equals("")?"---":usuario.getTelefono());
+        tvCelular.setText(usuario.getCelular());
+        tvDireccion.setText(usuario.getDireccion());
+        tvCiudad.setText(usuario.getCiudad());
+        tvPais.setText(usuario.getPais());
+        tvNombreOrg.setText(usuario.getOrganizacion());
 
-        //TODO: Agregar campos extra como teléfono, Ubicación, Grupo, Organización
+        obtenerRol(usuario.getIdGrupos());
+    }
 
+    private void obtenerRol(String id) {
+        progressBar.setVisibility(View.VISIBLE);
 
-        // Se llena la información del usuario
+        // Se obtienen los datos de conexion
+        String fileName = "credenciales";
 
-       /*
-        ref.get().addOnCompleteListener(task -> {
-            if (task.isSuccessful() && task.getResult().exists()){
-                UsuarioDTO user = task.getResult().getValue(UsuarioDTO.class);
+        try (FileInputStream fileInputStream = openFileInput(fileName);
+             FileReader fileReader = new FileReader(fileInputStream.getFD());
+             BufferedReader bufferedReader = new BufferedReader(fileReader)) {
 
-                tvNombreCompleto.setText(user.getNombre());
-                tvCorreo.setText(user.getCorreo());
-                tvTI.setText(user.getTI());
+            server = bufferedReader.readLine();
+            user = bufferedReader.readLine();
+            pwd = bufferedReader.readLine();
+        } catch (IOException e) {
+            Log.e("cuenta", "No se encontraron las credenciales");
+        }
+        Log.i("cuenta", String.format("Server: %s\nUser: %s\nPwd: %s",server,user,pwd));
 
-                // Si ya pasó la fecha de la recarga y no se tienen los créditos completos
-                Log.d("cuenta", "Prox recarga: " + user.getTimestampSiguienteRecarga() + " , Ahora: " + Instant.now().getEpochSecond());
-                if(user.getTimestampSiguienteRecarga() < Instant.now().getEpochSecond()){
-                    tvCreditos.setText("100");
+        RequestQueue queue = Volley.newRequestQueue(CuentaUsuarioActivity.this);
+        String url = "https://" + server + "/REST/2.0/group/"+id;
+        Log.i("cuenta", "URL: "+url);
 
-                    // Este es el timestamp del próximo lunes a las 00:00
-                    Long timestampProxLunes = LocalDate.now().with(TemporalAdjusters.next(DayOfWeek.MONDAY)).atStartOfDay(ZoneId.systemDefault()).toInstant().getEpochSecond();
+        StringRequest request = new StringRequest(Request.Method.GET, url,
+                response ->  {
+                    Log.i("cuenta", "JSON obtenido:\n"+response);
 
-                    // Se actualizan los creditos y el timestamp en la db
-                    Map<String,Object> updates = new HashMap<>();
-                    updates.put("timestampSiguienteRecarga",timestampProxLunes);
-                    updates.put("creditos",100);
-                    ref.updateChildren(updates);
-                }
-                else {tvCreditos.setText(user.getCreditos().toString());}
+                    // Se obtiene el nombre del rol
+                    String nombreRol = JsonParser.parseString(response).getAsJsonObject().get("Name").toString();
+                    Log.i("cuenta", "El nombre del rol es: "+nombreRol);
+
+                    // Se escribe el nombre del rol
+                    tvRol.setText(nombreRol.replaceAll("\"",""));
+                    progressBar.setVisibility(View.GONE);
+                },
+                error -> {
+                    Log.e("cuenta", error.getMessage());
+                    Toast.makeText(CuentaUsuarioActivity.this, "Hubo un error de conexión", Toast.LENGTH_SHORT).show();
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String,String> headers = new HashMap<>();
+                String credentials = user +":" + pwd;
+                String auth = "Basic "
+                        + Base64.encodeToString(credentials.getBytes(),
+                        Base64.NO_WRAP);
+                headers.put("Authorization", auth);
+                return headers;
             }
-        });
-        */
-        progressBar.setVisibility(View.GONE);
+        };
+        queue.add(request);
     }
 
     public void logout(View view){

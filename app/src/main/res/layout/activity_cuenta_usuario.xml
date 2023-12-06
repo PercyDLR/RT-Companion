@@ -59,6 +59,11 @@
                         android:padding="10dp"
                         app:cardCornerRadius="20dp">
 
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
@@ -70,7 +75,6 @@
                                 android:paddingEnd="20dp">
 
                                 <TextView
-                                    android:id="@+id/textView6"
                                     android:layout_width="wrap_content"
                                     android:layout_height="match_parent"
                                     android:layout_weight="1"
@@ -88,6 +92,36 @@
                                     android:text="Jesús Osorio Tueros"
                                     android:textSize="16sp" />
                             </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@color/interiorContenedor"
+                                android:orientation="horizontal"
+                                android:padding="15dp"
+                                android:paddingStart="20dp"
+                                android:paddingEnd="20dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:gravity="center_vertical"
+                                    android:text="Alias"
+                                    android:textSize="16sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/tvAliasCuentaUsuario"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:gravity="center_vertical|end"
+                                    android:text="Jesús Osorio Tueros"
+                                    android:textSize="16sp" />
+                            </LinearLayout>
+
+                        </LinearLayout>
                     </androidx.cardview.widget.CardView>
 
                     <TextView
@@ -167,6 +201,34 @@
                                     android:text="111222333"
                                     android:textSize="16sp" />
                             </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@color/interiorContenedor"
+                                android:orientation="horizontal"
+                                android:padding="15dp"
+                                android:paddingStart="20dp"
+                                android:paddingEnd="20dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:gravity="center_vertical"
+                                    android:text="Celular"
+                                    android:textSize="16sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/tvCelularCuentaUsuario"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:gravity="center_vertical|end"
+                                    android:text="111222333"
+                                    android:textSize="16sp" />
+                            </LinearLayout>
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
 
@@ -195,15 +257,14 @@
                                 android:layout_height="match_parent"
                                 android:layout_marginBottom="2dp"
                                 android:background="@color/interiorContenedor"
-                                android:orientation="horizontal"
+                                android:orientation="vertical"
                                 android:padding="15dp"
                                 android:paddingStart="20dp"
                                 android:paddingEnd="20dp">
 
                                 <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="match_parent"
-                                    android:layout_weight="1"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
                                     android:gravity="center_vertical"
                                     android:text="Dirección"
                                     android:textSize="16sp"
@@ -211,8 +272,8 @@
 
                                 <TextView
                                     android:id="@+id/tvDireccionCuentaUsuario"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="match_parent"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:gravity="center_vertical|end"
                                     android:text="Av. del pinar 108"
@@ -251,7 +312,6 @@
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:layout_marginBottom="2dp"
                                 android:background="@color/interiorContenedor"
                                 android:orientation="horizontal"
                                 android:padding="15dp"
@@ -331,7 +391,6 @@
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:layout_marginBottom="2dp"
                                 android:background="@color/interiorContenedor"
                                 android:orientation="horizontal"
                                 android:padding="15dp"

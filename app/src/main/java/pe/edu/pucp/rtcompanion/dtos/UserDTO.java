@@ -5,64 +5,60 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 
 public class UserDTO implements Serializable {
+    private class Grupo implements Serializable {
+        String type;
+        String id;
+        String _url;
+    }
     @SerializedName("Disabled")
-    private
-    Integer estaDeshabilitado;
-    private String AuthToken;
-    private Integer Privileged;
-    private String Comments;
-    @SerializedName("Name")
-    private
-    String nombre;
-    @SerializedName("EmailAddress")
-    private
-    String correo;
+    private Integer estaDeshabilitado;
+    @SerializedName("Created")
+    private String creacion;
     private Integer id;
     @SerializedName("RealName")
-    private
-    String nombreCompleto;
-    private String Gecos;
-    @SerializedName("Created")
-    private
-    String creacion;
+    private String nombreCompleto;
+    @SerializedName("Name")
+    private String alias;
+    @SerializedName("EmailAddress")
+    private String correo;
+    @SerializedName("HomePhone")
+    private String telefono;
+    @SerializedName("MobilePhone")
+    private String celular;
+    @SerializedName("Address1")
+    private String direccion;
+    @SerializedName("City")
+    private String ciudad;
+    @SerializedName("Country")
+    private String pais;
+    @SerializedName("Organization")
+    private String organizacion;
+    @SerializedName("Memberships")
+    private Grupo[] grupos;
 
     public Integer getEstaDeshabilitado() {
         return estaDeshabilitado;
     }
-
-    public String getAuthToken() {
-        return AuthToken;
+    public String getAlias() {
+        return alias;
     }
-
-    public Integer getPrivileged() {
-        return Privileged;
-    }
-
-    public String getComments() {
-        return Comments;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
     public String getCorreo() {
         return correo;
     }
-
     public Integer getId() {
         return id;
     }
-
     public String getNombreCompleto() {
         return nombreCompleto;
     }
-
-    public String getGecos() {
-        return Gecos;
-    }
-
     public String getCreacion() {
         return creacion;
     }
+    public String getTelefono() {return telefono;}
+    public String getCelular() {return celular;}
+    public String getDireccion() {return direccion;}
+    public String getCiudad() {return ciudad;}
+    public String getPais() {return pais;}
+    public String getOrganizacion() {return organizacion;}
+    public String getIdGrupos() {return grupos[0].id;}
 }

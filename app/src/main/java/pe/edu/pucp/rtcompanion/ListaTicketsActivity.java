@@ -45,7 +45,7 @@ public class ListaTicketsActivity extends AppCompatActivity {
     private TextInputLayout buscadorEspacios;
     private UserDTO usuario;
     private View progressBar;
-    String server, user, pwd;
+    private String server, user, pwd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
