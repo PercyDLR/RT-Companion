@@ -4,8 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 
 import java.io.BufferedReader;
@@ -31,8 +34,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -138,8 +146,39 @@ public class CuentaUsuarioActivity extends AppCompatActivity {
                     progressBar.setVisibility(View.GONE);
                 },
                 error -> {
-                    Log.e("cuenta", error.getMessage());
-                    Toast.makeText(CuentaUsuarioActivity.this, "Hubo un error de conexión", Toast.LENGTH_SHORT).show();
+                    if (error instanceof NoConnectionError) {
+                        //This indicates that the reuest has either time out or there is no connection
+                        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+                        NetworkInfo activeNetwork = null;
+                        if (cm != null) {
+                            activeNetwork = cm.getActiveNetworkInfo();
+                        }
+                        if(activeNetwork != null && activeNetwork.isConnectedOrConnecting()){
+                            Toast.makeText(CuentaUsuarioActivity.this, "No es posible acceder al servidor", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(CuentaUsuarioActivity.this, "Es necesaria una conexión a Internet", Toast.LENGTH_SHORT).show();
+                        }
+
+                    } else if (error instanceof TimeoutError) {
+                        Toast.makeText(CuentaUsuarioActivity.this, "No se recibió respuesta del servidor", Toast.LENGTH_SHORT).show();
+
+                    } else if (error instanceof AuthFailureError) {
+                        Toast.makeText(CuentaUsuarioActivity.this, "Las credenciales son inválidas", Toast.LENGTH_SHORT).show();
+
+                    } else if (error instanceof ServerError) {
+                        //Indicates that the server responded with a error response
+                        Toast.makeText(CuentaUsuarioActivity.this, "Hay un problema con el servidor", Toast.LENGTH_SHORT).show();
+
+                    } else if (error instanceof NetworkError) {
+                        //Indicates that there was network error while performing the request
+                        Toast.makeText(CuentaUsuarioActivity.this, "Hubo un error de conexión", Toast.LENGTH_SHORT).show();
+
+                    } else if (error instanceof ParseError) {
+                        // Indicates that the server response could not be parsed
+                        Toast.makeText(CuentaUsuarioActivity.this, "No se pudo procesar a respuesta del servidor", Toast.LENGTH_SHORT).show();
+                    }
+                    tvRol.setText("");
+                    progressBar.setVisibility(View.GONE);
                 }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {

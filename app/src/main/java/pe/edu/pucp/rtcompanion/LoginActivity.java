@@ -5,9 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -16,8 +19,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.textfield.TextInputLayout;
@@ -151,8 +159,41 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 },
                 error -> {
-                    Log.e("logueo", error.getMessage());
-                    Toast.makeText(LoginActivity.this, "Hubo un error de conexión", Toast.LENGTH_SHORT).show();
+                    if (error instanceof NoConnectionError) {
+                        //This indicates that the reuest has either time out or there is no connection
+                        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+                        NetworkInfo activeNetwork = null;
+                        if (cm != null) {
+                            activeNetwork = cm.getActiveNetworkInfo();
+                        }
+                        if(activeNetwork != null && activeNetwork.isConnectedOrConnecting()){
+                            inputServer.setError("Revisar la dirección del servidor");
+                            Toast.makeText(LoginActivity.this, "No es posible acceder al servidor", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(LoginActivity.this, "Es necesaria una conexión a Internet", Toast.LENGTH_SHORT).show();
+                        }
+
+                    } else if (error instanceof TimeoutError) {
+                        Toast.makeText(LoginActivity.this, "No se recibió respuesta del servidor", Toast.LENGTH_SHORT).show();
+
+                    } else if (error instanceof AuthFailureError) {
+                        Toast.makeText(LoginActivity.this, "Las credenciales son inválidas", Toast.LENGTH_SHORT).show();
+                        inputUser.setError("El usuario o la contraseña son inválidos");
+                        inputPwd.setError("El usuario o la contraseña son inválidos");
+
+                    } else if (error instanceof ServerError) {
+                        //Indicates that the server responded with a error response
+                        Toast.makeText(LoginActivity.this, "Hay un problema con el servidor", Toast.LENGTH_SHORT).show();
+
+                    } else if (error instanceof NetworkError) {
+                        //Indicates that there was network error while performing the request
+                        Toast.makeText(LoginActivity.this, "Hubo un error de conexión", Toast.LENGTH_SHORT).show();
+
+                    } else if (error instanceof ParseError) {
+                        // Indicates that the server response could not be parsed
+                        Toast.makeText(LoginActivity.this, "No se pudo procesar a respuesta del servidor", Toast.LENGTH_SHORT).show();
+                    }
+                    progressBar.setVisibility(View.GONE);
                 }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
@@ -177,16 +218,25 @@ public class LoginActivity extends AppCompatActivity {
         inputUser.setError(null);
         inputPwd.setError(null);
 
+        // Se valida que los campos se hayan llenado
+        if (usuario.equals("")) {
+            inputUser.setError("El usuario no puede estar vacío");
+            valido = false;
+        }
+        if (pwd.equals("")){
+            inputPwd.setError("La contraseña no puede estar vacía");
+            valido = false;
+        }
+
         // Se valida el usuario ingresado
         if (usuario.equals("root")) {
             inputUser.setError("Usuario inválido");
             Toast.makeText(LoginActivity.this, "No puede ingresar con el usuario root. Intente con otro.", Toast.LENGTH_SHORT).show();
             valido = false;
         }
+
         // Se valida que la URL sea válida
-        try {
-            new URL("https://" + server).toURI();
-        } catch (MalformedURLException | URISyntaxException e) {
+        if (!Patterns.WEB_URL.matcher("https://" + server).matches()) {
             inputServer.setError("La URL ingresada no es válida");
             valido = false;
         }
