@@ -59,6 +59,9 @@ public class ListaTicketsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_tickets);
+
+        setTitle("Inicio");
+
         // Se obtienen los datos del usuario
         usuario = (UserDTO) getIntent().getExtras().get("usuario");
 

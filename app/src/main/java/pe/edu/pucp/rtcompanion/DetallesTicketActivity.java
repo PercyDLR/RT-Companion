@@ -1,9 +1,12 @@
 package pe.edu.pucp.rtcompanion;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
@@ -32,6 +35,9 @@ public class DetallesTicketActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalles_ticket);
+
+        setTitle("Detalles del Ticket");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         progressBar = findViewById(R.id.pbDetalle);
         setupBlur();
@@ -107,5 +113,11 @@ public class DetallesTicketActivity extends AppCompatActivity {
         progressBar.setupWith(rootView, new RenderScriptBlur(this))
                 .setFrameClearDrawable(windowBackground)
                 .setBlurRadius(15f);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        finish();
+        return true;
     }
 }

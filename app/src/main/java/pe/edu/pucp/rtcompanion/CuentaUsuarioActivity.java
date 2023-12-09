@@ -76,6 +76,8 @@ public class CuentaUsuarioActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cuenta_usuario);
 
+        setTitle("Cuenta");
+
         // Se setea la progressbar
         progressBar = findViewById(R.id.pbCuentaUsuario);
         setupBlur();
