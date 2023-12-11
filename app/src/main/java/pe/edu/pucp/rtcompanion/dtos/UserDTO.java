@@ -60,5 +60,5 @@ public class UserDTO implements Serializable {
     public String getCiudad() {return ciudad;}
     public String getPais() {return pais;}
     public String getOrganizacion() {return organizacion;}
-    public String getIdGrupos() {return grupos[0].id;}
+    public String getIdGrupos() {return grupos.length > 0 ? grupos[0].id : "" ;}
 }

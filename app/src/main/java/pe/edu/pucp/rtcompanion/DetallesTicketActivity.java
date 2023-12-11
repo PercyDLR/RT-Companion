@@ -29,8 +29,6 @@ public class DetallesTicketActivity extends AppCompatActivity {
     private BlurView progressBar;
     private TextView tvAsunto, tvDescripcion, tvEstado, tvPrioridad, tvInicio, tvFin, tvCreador, tvSolicitantes, tvObservadores;
 
-    //TODO: Agregar los elementos de información
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,9 +58,25 @@ public class DetallesTicketActivity extends AppCompatActivity {
 
         // Se adiciona la info a cada campo
         tvAsunto.setText(ticket.getAsunto());
-        tvEstado.setText(ticket.getEstado());
-        tvPrioridad.setText(ticket.getPrioridad());
         tvCreador.setText(ticket.getCreador().getId());
+
+        //TODO: Agregar descripción
+
+        // Se setea el estado
+        String estadoStr = "1";
+        switch (ticket.getEstado()){
+            case "new": estadoStr = "Nuevo"; break;
+            case "open":  estadoStr = "Abierto"; break;
+            case "stalled":  estadoStr = "Pendiente"; break;
+        }
+        tvEstado.setText(estadoStr);
+
+        // Se setea la prioridad
+        String prioridadStr;
+        if (ticket.getPrioridad().equals("0")){prioridadStr  = "Baja";}
+        else if (ticket.getPrioridad().equals("100")){prioridadStr  = "Alta";}
+        else {prioridadStr  = "Media";}
+        tvPrioridad.setText(prioridadStr);
 
         // Info de fecha
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy hh:mm a");
