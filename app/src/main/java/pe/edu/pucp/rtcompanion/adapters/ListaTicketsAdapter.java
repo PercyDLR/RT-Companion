@@ -2,6 +2,7 @@ package pe.edu.pucp.rtcompanion.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,14 +67,24 @@ public class ListaTicketsAdapter extends RecyclerView.Adapter<ListaTicketsAdapte
         long monthsInMilli = daysInMilli * 30;
 
         long elapsedTime; String time;
-        if ((elapsedTime = different / monthsInMilli) > 0) {time = "meses";}
-        else if ((elapsedTime = different / daysInMilli) > 0) {time = "días";}
-        else if ((elapsedTime = different / hoursInMilli) > 0) {time = "horas";}
-        else if ((elapsedTime = different / minutesInMilli) > 0) {time = "minutos";}
-        else {
+        if ((elapsedTime = different / monthsInMilli) > 0) {
+            Log.d("adapter", "meses:" + different);
+            time = "m";
+        } else if ((elapsedTime = different / daysInMilli) > 0) {
+            Log.d("adapter", "dias:" + elapsedTime);
+            time = "d";
+        } else if ((elapsedTime = different / hoursInMilli) > 0) {
+            Log.d("adapter", "horas:" + elapsedTime);
+            time = "h";
+        } else if ((elapsedTime = different / minutesInMilli) > 0) {
+            Log.d("adapter", "minutos:" + elapsedTime);
+            time = "min";
+        } else {
             elapsedTime = different / secondsInMilli;
+            Log.d("adapter", "segundos:" + elapsedTime);
             time = "segundos";
         }
+        Log.d("adapter", "monthInMilis: "+monthsInMilli);
         dias.setText(elapsedTime + " " + time);
 
         // Prioridad
